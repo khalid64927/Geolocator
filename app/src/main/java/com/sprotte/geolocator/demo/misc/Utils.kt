@@ -11,6 +11,7 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.PreferenceManager
@@ -18,8 +19,10 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ComponentActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
@@ -28,6 +31,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.sprotte.geolocator.demo.BuildConfig
 import com.sprotte.geolocator.demo.R
 import com.sprotte.geolocator.demo.kotlin.MainActivity
@@ -35,6 +41,8 @@ import com.sprotte.geolocator.geofencer.models.Geofence
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
+import timber.log.Timber
+
 
 fun EditText.requestFocusWithKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -210,5 +218,32 @@ fun FragmentActivity.requestBackgroundLocationPermission(block: (permission: Per
     }, {
         Log.v("LocationPermission", "location permission $it")
     })
+
+fun ComponentActivity.getDynamicLinks() {
+    val action: String? = intent?.action
+    val data: Uri? = intent?.data
+    Timber.d("action :: $action")
+    Timber.d("data :: $data")
+
+    Firebase.dynamicLinks
+        .getDynamicLink(intent)
+        .addOnSuccessListener(this) { pendingDynamicLinkData: PendingDynamicLinkData? ->
+            // Get deep link from result (may be null if no link is found)
+            var deepLink: Uri? = null
+            if (pendingDynamicLinkData != null) {
+                deepLink = pendingDynamicLinkData.link
+                toastL("Deeplink received: $deepLink")
+            }
+        }
+        .addOnFailureListener(this) { e -> Timber.w( "getDynamicLink:onFailure", e) }
+}
+
+fun ComponentActivity.toastL(message: String = ""){
+    toast(message, Toast.LENGTH_LONG)
+}
+
+fun ComponentActivity.toast(message: String, duration : Int){
+    Toast.makeText(applicationContext, message, duration).show()
+}
 
 

@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Geofencer Demo</string>
+    <string name="filter_view_example_gizmos">GIZMOS</string>
+    <string name="host_web">www.example.com</string>
+    <string name="host_pathPrefix">/gizmo</string>
+    <string name="filter_view_http_gizmos">GIZMOS HTTP</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDGn7d0iulunZkWMmnkJohxrha_ZTeOqqM</string>
 
 
