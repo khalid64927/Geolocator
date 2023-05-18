@@ -10,9 +10,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-
-    compileSdkVersion compileSdkVer
-    buildToolsVersion buildToolsVer
+    compileSdk compileSdkVer
+    buildToolsVersion = buildToolsVer
 
     defaultConfig {
         applicationId APPLICATION_ID
