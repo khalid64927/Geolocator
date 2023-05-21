@@ -30,6 +30,7 @@ ext.plugin = [
         kotlinDokka     : "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18",
         // https://developers.google.com/android/guides/google-services-plugin
         gms             : "com.google.gms:google-services:4.3.10",
+        crashlytics     : "com.google.firebase:firebase-crashlytics-gradle:2.9.5",
 ]
 ext.libs = [
         gson                     : "com.google.code.gson:gson:2.9.0",
