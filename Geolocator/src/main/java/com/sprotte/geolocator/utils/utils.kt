@@ -82,7 +82,7 @@ internal fun Context.getRes(resInt: Int): Long{
     return applicationContext.resources.getInteger(resInt).toLong()
 }
 
-fun FragmentActivity.showTwoButtonDialog(rationalMessage: String, block: (Boolean) -> Unit){
+fun FragmentActivity.showTwoButtonDialog(rationalMessage: String, block: (Boolean) -> Unit = {}){
     StartGameDialogFragment(rationalMessage, block).show(supportFragmentManager,"twoButtonDialog")
 }
 

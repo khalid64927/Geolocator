@@ -38,6 +38,7 @@ import com.sprotte.geolocator.demo.BuildConfig
 import com.sprotte.geolocator.demo.R
 import com.sprotte.geolocator.demo.kotlin.MainActivity
 import com.sprotte.geolocator.geofencer.models.Geofence
+import com.sprotte.geolocator.utils.showTwoButtonDialog
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
@@ -219,11 +220,12 @@ fun FragmentActivity.requestBackgroundLocationPermission(block: (permission: Per
         Log.v("LocationPermission", "location permission $it")
     })
 
-fun ComponentActivity.getDynamicLinks() {
+fun FragmentActivity.getDynamicLinks() {
     val action: String? = intent?.action
     val data: Uri? = intent?.data
     Timber.d("action :: $action")
     Timber.d("data :: $data")
+    showTwoButtonDialog("onNewIntent: data :: $data")
 
     Firebase.dynamicLinks
         .getDynamicLink(intent)

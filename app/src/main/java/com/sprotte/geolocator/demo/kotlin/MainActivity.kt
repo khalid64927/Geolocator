@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         val data: Uri? = intent?.data
         Timber.d(" onNewIntent: action :: $action")
         Timber.d("onNewIntent: data :: $data")
+        getDynamicLinks()
     }
 
     @RequiresPermission(permission.ACCESS_FINE_LOCATION)
