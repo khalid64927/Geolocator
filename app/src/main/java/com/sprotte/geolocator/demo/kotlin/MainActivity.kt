@@ -4,24 +4,59 @@ import android.Manifest.permission
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import com.android.installreferrer.api.InstallReferrerClient
+import com.android.installreferrer.api.InstallReferrerStateListener
 import com.sprotte.geolocator.demo.R
 import com.sprotte.geolocator.demo.misc.getDynamicLinks
+import com.sprotte.geolocator.demo.misc.toastL
 import com.sprotte.geolocator.geofencer.Geofencer
 import com.sprotte.geolocator.geofencer.models.Geofence
 import com.sprotte.geolocator.tracking.LocationTracker
-import com.sprotte.geolocator.utils.showTwoButtonDialog
 import timber.log.Timber
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var referrerClient: InstallReferrerClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         getDynamicLinks()
+
+        referrerClient = InstallReferrerClient.newBuilder(this).build()
+        referrerClient.startConnection(object : InstallReferrerStateListener {
+
+            override fun onInstallReferrerSetupFinished(responseCode: Int) {
+                when (responseCode) {
+                    InstallReferrerClient.InstallReferrerResponse.OK -> {
+                        // Connection established.
+                        Timber.d("InstallReferrerResponse.OK")
+                        toastL("InstallReferrerResponse.OK")
+                    }
+                    InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
+                        // API not available on the current Play Store app.
+                        Timber.d("InstallReferrerResponse.FEATURE_NOT_SUPPORTED")
+                        toastL("InstallReferrerResponse.FEATURE_NOT_SUPPORTED")
+                    }
+                    InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
+                        // Connection couldn't be established.
+                        Timber.d("InstallReferrerResponse.SERVICE_UNAVAILABLE")
+                        toastL("InstallReferrerResponse.SERVICE_UNAVAILABLE")
+                    }
+                }
+            }
+
+            override fun onInstallReferrerServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+                toastL("onInstallReferrerServiceDisconnected")
+            }
+        })
     }
 
     override fun onNewIntent(intent: Intent?) {
