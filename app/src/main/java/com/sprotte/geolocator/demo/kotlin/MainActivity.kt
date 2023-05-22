@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getDynamicLinks()
+        getDynamicLinks("onCreate ::")
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val data: Uri? = intent?.data
         Timber.d(" onNewIntent: action :: $action")
         Timber.d("onNewIntent: data :: $data")
-        getDynamicLinks()
+        getDynamicLinks("onNewIntent ::")
     }
 
     @RequiresPermission(permission.ACCESS_FINE_LOCATION)

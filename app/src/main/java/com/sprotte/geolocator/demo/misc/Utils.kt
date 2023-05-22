@@ -220,12 +220,12 @@ fun FragmentActivity.requestBackgroundLocationPermission(block: (permission: Per
         Log.v("LocationPermission", "location permission $it")
     })
 
-fun FragmentActivity.getDynamicLinks() {
+fun FragmentActivity.getDynamicLinks(message: String = "") {
     val action: String? = intent?.action
     val data: Uri? = intent?.data
     Timber.d("action :: $action")
     Timber.d("data :: $data")
-    showTwoButtonDialog("onNewIntent: data :: $data")
+    showTwoButtonDialog("$message :: data :: $data")
 
     Firebase.dynamicLinks
         .getDynamicLink(intent)
