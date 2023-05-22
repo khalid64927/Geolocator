@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.android.installreferrer.api.InstallReferrerClient
 import com.android.installreferrer.api.InstallReferrerStateListener
+import com.android.installreferrer.api.ReferrerDetails
 import com.sprotte.geolocator.demo.R
 import com.sprotte.geolocator.demo.misc.getDynamicLinks
 import com.sprotte.geolocator.demo.misc.toastL
@@ -26,9 +27,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getDynamicLinks()
-
         referrerClient = InstallReferrerClient.newBuilder(this).build()
+
+
+
+
+
+
         referrerClient.startConnection(object : InstallReferrerStateListener {
 
             override fun onInstallReferrerSetupFinished(responseCode: Int) {
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                     InstallReferrerClient.InstallReferrerResponse.OK -> {
                         // Connection established.
                         Timber.d("InstallReferrerResponse.OK")
+
                         toastL("InstallReferrerResponse.OK")
                     }
                     InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
@@ -49,6 +55,20 @@ class MainActivity : AppCompatActivity() {
                         toastL("InstallReferrerResponse.SERVICE_UNAVAILABLE")
                     }
                 }
+
+                val response: ReferrerDetails = referrerClient.installReferrer
+                referrerClient.installReferrer
+                val referrerUrl: String = response.installReferrer
+                val referrerClickTime: Long = response.referrerClickTimestampSeconds
+                val appInstallTime: Long = response.installBeginTimestampSeconds
+                val instantExperienceLaunched: Boolean = response.googlePlayInstantParam
+                val message = " response : $response \n " +
+                        " referrerUrl : $referrerUrl \n " +
+                        " referrerClickTime : $referrerClickTime \n " +
+                        " appInstallTime : $appInstallTime \n " +
+                        " instantExperienceLaunched : $instantExperienceLaunched"
+
+                getDynamicLinks(message)
             }
 
             override fun onInstallReferrerServiceDisconnected() {
@@ -57,6 +77,8 @@ class MainActivity : AppCompatActivity() {
                 toastL("onInstallReferrerServiceDisconnected")
             }
         })
+
+
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -66,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         val data: Uri? = intent?.data
         Timber.d(" onNewIntent: action :: $action")
         Timber.d("onNewIntent: data :: $data")
-        getDynamicLinks()
+        getDynamicLinks("onNewIntent ::")
     }
 
     @RequiresPermission(permission.ACCESS_FINE_LOCATION)
