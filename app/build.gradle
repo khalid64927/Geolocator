@@ -24,7 +24,7 @@ android {
         minSdkVersion 21
         targetSdkVersion targetSdkVer
         versionCode VERSION_CODE
-        versionName VERSION_NAME + "." +VERSION_NAME
+        versionName VERSION_NAME + "." +VERSION_CODE
         vectorDrawables.useSupportLibrary = true
         useLibrary 'org.apache.http.legacy'
     }
