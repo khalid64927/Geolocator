@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.sprotte.geolocator.demo.R
 import com.sprotte.geolocator.demo.misc.getDynamicLinks
+import com.sprotte.geolocator.demo.misc.printDLData
 import com.sprotte.geolocator.geofencer.Geofencer
 import com.sprotte.geolocator.geofencer.models.Geofence
 import com.sprotte.geolocator.tracking.LocationTracker
-import com.sprotte.geolocator.utils.showTwoButtonDialog
 import timber.log.Timber
 import java.util.*
 
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         getDynamicLinks("onCreate ::")
+        printDLData()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         Timber.d(" onNewIntent: action :: $action")
         Timber.d("onNewIntent: data :: $data")
         getDynamicLinks("onNewIntent ::")
+        printDLData()
     }
 
     @RequiresPermission(permission.ACCESS_FINE_LOCATION)

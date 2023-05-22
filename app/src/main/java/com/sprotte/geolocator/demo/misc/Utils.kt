@@ -1,7 +1,7 @@
 package com.sprotte.geolocator.demo.misc
 
 import android.Manifest
-import android.app.Dialog
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -29,11 +29,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import com.appsflyer.deeplink.DeepLink
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.sprotte.geolocator.demo.BuildConfig
 import com.sprotte.geolocator.demo.R
 import com.sprotte.geolocator.demo.kotlin.MainActivity
@@ -42,7 +44,9 @@ import com.sprotte.geolocator.utils.showTwoButtonDialog
 import com.tbruyelle.rxpermissions2.Permission
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
+import org.json.JSONObject
 import timber.log.Timber
+import java.lang.Exception
 
 
 fun EditText.requestFocusWithKeyboard() {
@@ -240,12 +244,30 @@ fun FragmentActivity.getDynamicLinks(message: String = "") {
         .addOnFailureListener(this) { e -> Timber.w( "getDynamicLink:onFailure", e) }
 }
 
-fun ComponentActivity.toastL(message: String = ""){
+fun Context.toastL(message: String = ""){
     toast(message, Toast.LENGTH_LONG)
 }
 
-fun ComponentActivity.toast(message: String, duration : Int){
+fun Context.toast(message: String, duration : Int){
     Toast.makeText(applicationContext, message, duration).show()
+}
+
+fun Activity.printDLData(){
+    try{
+        var dlData: DeepLink? = Gson().fromJson(intent.getStringExtra("dl_attrs"),
+            DeepLink::class.java)
+        if(dlData!=null){
+            Timber.d("DeepLink data is not nul ${JSONObject(dlData.toString())}")
+        } else {
+            Timber.d("DeepLink data is null")
+        }
+
+    }catch (e: Exception){
+        Timber.e(" exception :: ${e.message}")
+    }
+
+
+
 }
 
 

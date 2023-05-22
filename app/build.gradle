@@ -4,6 +4,7 @@ ext {
     CANONICAL_VERSION_NAME = canonicalReleaseVersionName()
     BRANCH_NAME = branchName()
     COMMIT_HASH = commitHash()
+    System.out.println("VERSION_CODE "+VERSION_CODE)
 }
 
 apply plugin: 'com.android.application'
