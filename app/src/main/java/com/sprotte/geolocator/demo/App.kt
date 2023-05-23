@@ -1,14 +1,18 @@
 package com.sprotte.geolocator.demo
 
 import android.app.Application
+import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.deeplink.DeepLink
 import com.appsflyer.deeplink.DeepLinkListener
 import com.appsflyer.deeplink.DeepLinkResult
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import com.google.gson.Gson
 import com.sprotte.geolocator.demo.misc.toastL
 import org.json.JSONException
@@ -88,7 +92,7 @@ class App : Application() {
         appsFlyerLib.run {
             setDebugLog(true)
             setMinTimeBetweenSessions(0)
-            setAppInviteOneLink("")
+            setAppInviteOneLink("2d0e")
             subscribeForDeepLink(deepLinkResult)
             init("6VTPGqbLbdMPSBkiiTzEMJ", cl, applicationContext)
             start(applicationContext)
@@ -158,8 +162,24 @@ class App : Application() {
 
 }
 
-class CrashTree : Timber.Tree() {
+class CrashTree(val context: Context) : Timber.Tree() {
+    val analytics = FirebaseAnalytics.getInstance(context)
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        val priorityString = when(priority) {
+            Log.DEBUG -> "DEBUG"
+            Log.ASSERT -> "ASSERT"
+            Log.ERROR -> "ERROR"
+            Log.INFO -> "INFO"
+            Log.WARN -> "WARN"
+            Log.VERBOSE -> "VERBOSE"
+            else -> "NA"
+        }
+        analytics.logEvent("LOG", Bundle().apply {
+                putString("priority", priorityString)
+                putString("message", message)
+            }
+        )
+        t?.run { Firebase.crashlytics.recordException(t) }
         Firebase.crashlytics.log(message)
     }
 
