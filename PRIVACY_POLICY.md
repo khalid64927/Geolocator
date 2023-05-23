@@ -1,8 +1,10 @@
 ## GeoFence Demo: Privacy policy
 
-Welcome to the GeoFence Demo app for Android!
+Welcome to the Geo Fence Demo app for Android!
 
-This is an open source Android app developed by Mohammed Khalid Hamid . The source code is available on GitHub under the MIT license; the app is also available on Google Play.
+This is an open source Android app developed by Mohammed Khalid Hamid . 
+The source code is available on GitHub under the MIT license; the app is also available on 
+Google Play.
 
 As an avid Android user myself, I take privacy very seriously.
 I know how irritating it is when apps collect your data without your knowledge.
@@ -32,7 +34,9 @@ https://github.com/khalid64927/Geolocator/blob/master/Geolocator/src/main/Androi
 
  <hr style="border:1px solid gray">
 
-If you find any security vulnerability that has been inadvertently caused by me, or have any question regarding how the app protectes your privacy, please send me an email or post a discussion on GitHub, and I will surely try to fix it/help you.
+If you find any security vulnerability that has been inadvertently caused by me, or have any question 
+regarding how the app protectes your privacy, please send me an email or post a discussion on GitHub, 
+and I will surely try to fix it/help you.
 
 Yours sincerely,  
 Mohammed Khalid Hamid.  
