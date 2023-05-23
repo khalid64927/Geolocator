@@ -17,7 +17,7 @@ import com.sprotte.geolocator.demo.misc.toastL
 import com.sprotte.geolocator.geofencer.Geofencer
 import com.sprotte.geolocator.geofencer.models.Geofence
 import com.sprotte.geolocator.tracking.LocationTracker
-import com.sprotte.geolocator.utils.showTwoButtonDialog
+import com.sprotte.geolocator.utils.showInformationDialog
 import timber.log.Timber
 import java.util.*
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     val appInstallTime: Long = response.installBeginTimestampSeconds
                     val instantExperienceLaunched: Boolean = response.googlePlayInstantParam
                     toastL("Connection established")
-                    showTwoButtonDialog(" referrerUrl $referrerUrl \n" +
+                    showInformationDialog(title = "Deeplink Info", message = " referrerUrl $referrerUrl \n" +
                             " :: referrerClickTime :: $referrerClickTime \n " +
                             " :: appInstallTime :: $appInstallTime \n" +
                             " :: instantExperienceLaunched :: $instantExperienceLaunched")

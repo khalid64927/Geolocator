@@ -229,7 +229,6 @@ fun FragmentActivity.getDynamicLinks(message: String = "") {
     val data: Uri? = intent?.data
     Timber.d("action :: $action")
     Timber.d("data :: $data")
-    showTwoButtonDialog("$message :: data :: $data")
 
     Firebase.dynamicLinks
         .getDynamicLink(intent)

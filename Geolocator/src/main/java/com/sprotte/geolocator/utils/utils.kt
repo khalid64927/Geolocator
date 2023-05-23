@@ -85,6 +85,9 @@ internal fun Context.getRes(resInt: Int): Long{
 fun FragmentActivity.showTwoButtonDialog(rationalMessage: String, block: (Boolean) -> Unit = {}){
     StartGameDialogFragment(rationalMessage, block).show(supportFragmentManager,"twoButtonDialog")
 }
+ fun FragmentActivity.showInformationDialog(message: String, title: String) {
+     ShowInformationDialogFragment(message, title).show(supportFragmentManager, "informationDialog")
+ }
 
 class StartGameDialogFragment(val rationalMessage: String, val block: (Boolean) -> Unit = { }) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -101,6 +104,25 @@ class StartGameDialogFragment(val rationalMessage: String, val block: (Boolean) 
                     com.sprotte.geolocator.R.string.button_reject
                 ) { _, _ ->
                     block(false)
+                }
+            // Create the AlertDialog object and return it
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
+}
+
+class ShowInformationDialogFragment(val message: String, val title: String)
+    : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return activity?.let {
+            // Use the Builder class for convenient dialog construction
+            val builder = AlertDialog.Builder(it)
+            builder.setMessage(message)
+                .setTitle(title)
+                .setPositiveButton(
+                    com.sprotte.geolocator.R.string.button_ok
+                ) { _, _ ->
+                    // no-op
                 }
             // Create the AlertDialog object and return it
             builder.create()
