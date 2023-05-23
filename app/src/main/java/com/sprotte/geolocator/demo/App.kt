@@ -85,7 +85,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val tree = if(BuildConfig.DEBUG) Timber.DebugTree() else CrashTree()
+        val tree = if(BuildConfig.DEBUG) Timber.DebugTree() else CrashTree(context = applicationContext)
         Timber.plant(tree)
         val appsFlyerLib = AppsFlyerLib.getInstance()
 
